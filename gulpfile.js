@@ -1,9 +1,10 @@
-var gulp      = require('gulp');
-var sass      = require('gulp-sass');
-var jade      = require('gulp-jade');
-var uglify    = require('gulp-uglify');
-var inlineCss = require('gulp-inline-css');
-var clean     = require('gulp-clean');
+var gulp        = require('gulp');
+var sass        = require('gulp-sass');
+var jade        = require('gulp-jade');
+var uglify      = require('gulp-uglify');
+var inlineCss   = require('gulp-inline-css');
+var clean       = require('gulp-clean');
+var browserSync = require('browser-sync');
 
 var PATH_DEST      = "dist/";
 var PATH_CSS       = "css/";
@@ -30,14 +31,30 @@ gulp.task('compile-jade', function() {
 });
 
 gulp.task('bundle', ['sass', 'compile-jade'], function() {
-  gulp.src('./'+PATH_DEST+'*.html')
+  return  gulp.src('./'+PATH_DEST+'*.html')
   .pipe(inlineCss())
-  .pipe(gulp.dest(PATH_DEST));
+  .pipe(gulp.dest(PATH_DEST))
 });
 
-gulp.task('watch', function() {
-  gulp.watch('./'+PATH_JADE_SRC+'*.jade', ['bundle']);
+gulp.task('serve', ['bundle'], function() {
+  browserSync({
+    online: false,
+    open: false,
+    port: 9000,
+    server: {
+      baseDir: ['./'+PATH_DEST],
+      middleware: function (req, res, next) {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        next();
+      }
+    }
+  });
 });
 
+gulp.task('bundle-sync', ['bundle'], browserSync.reload);
+
+gulp.task('watch', ['serve'], function() {
+  gulp.watch('./'+PATH_JADE_SRC+'*.jade', ['bundle-sync']);
+});
 
 gulp.task('default', ['bundle'], function() {});
