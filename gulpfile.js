@@ -30,7 +30,12 @@ gulp.task('compile-jade', function() {
   .pipe(gulp.dest('./'+PATH_DEST))
 });
 
-gulp.task('bundle', ['sass', 'compile-jade'], function() {
+gulp.task('statics', function() {
+  gulp.src("favicon.ico")
+  .pipe(gulp.dest("./"+PATH_DEST));
+});
+
+gulp.task('bundle', ['sass', 'compile-jade', 'statics'], function() {
   return  gulp.src('./'+PATH_DEST+'*.html')
   .pipe(inlineCss())
   .pipe(gulp.dest(PATH_DEST))

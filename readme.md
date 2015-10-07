@@ -1,23 +1,17 @@
+#Overview
+A simple skeleton which includes a basic gulp setup like (pre)-compiling, inline CSS
+ and live browser reloading.
+
 #SetUp
-- Install Foundation per bower/npm
-- Install Gulp per NPM
-- install reload global
-- setup package structure
-  - dist
-  - sass
-  - jade
-  - gulpfile.js
-  - package.json
+To install all dependencies simply type
 
-- create GulpFile
-  - Sekelton: minify, sass, compile-jade, default
-  - install plgins savedev
-    - sass
-    - jade
-    - bundle
+>npm install
 
-- implement Jade Task!
-- implement sass task
-- implement bundle task
-- implement clean task
-- implement gulp watch
+in project root.
+
+#How to
+To start crafting you simply have to start the
+
+> gulp watch
+
+task and start hacking while enjoying the livecompiling and reloading.
