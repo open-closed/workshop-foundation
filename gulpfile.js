@@ -59,7 +59,7 @@ gulp.task('serve', ['bundle'], function() {
 gulp.task('bundle-sync', ['bundle'], browserSync.reload);
 
 gulp.task('watch', ['serve'], function() {
-  gulp.watch(['./'+PATH_JADE_SRC+'*.jade', './'+PATH_SCSS+'*.scss'], ['bundle-sync']);
+  gulp.watch(['./'+PATH_JADE_SRC+'**/'+'*.jade', './'+PATH_SCSS+'*.scss'], ['bundle-sync']);
 });
 
 gulp.task('default', ['bundle'], function() {});
