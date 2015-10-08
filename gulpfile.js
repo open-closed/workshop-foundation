@@ -5,6 +5,7 @@ var uglify      = require('gulp-uglify');
 var inlineCss   = require('gulp-inline-css');
 var clean       = require('gulp-clean');
 var browserSync = require('browser-sync');
+var bundle      = require('gulp-concat-css');
 
 var PATH_DEST      = "dist/";
 var PATH_CSS       = "css/";
@@ -19,7 +20,8 @@ gulp.task('clean', function() {
 gulp.task('sass', function() {
   return gulp.src(PATH_SCSS+'*.scss')
   .pipe(sass())
-  .pipe(gulp.dest("./"+PATH_DEST+PATH_CSS));
+  .pipe(gulp.dest("./"+PATH_DEST+PATH_CSS))
+  .pipe(browserSync.stream());
 });
 
 gulp.task('compile-jade', function() {
@@ -35,10 +37,17 @@ gulp.task('statics', function() {
   .pipe(gulp.dest("./"+PATH_DEST));
 });
 
-gulp.task('bundle', ['sass', 'compile-jade', 'statics'], function() {
+
+gulp.task('bundle', ['sass', 'bundle-css', 'compile-jade', 'statics'], function() {
   return  gulp.src('./'+PATH_DEST+'*.html')
-  .pipe(inlineCss())
+//  .pipe(inlineCss())
   .pipe(gulp.dest(PATH_DEST))
+});
+
+gulp.task("bundle-css", function() {
+  gulp.src('./'+PATH_DEST+PATH_CSS+"*.css")
+  .pipe(bundle("bundle.css"))
+  .pipe(gulp.dest('./'+PATH_DEST+PATH_CSS))
 });
 
 gulp.task('serve', ['bundle'], function() {
@@ -59,7 +68,7 @@ gulp.task('serve', ['bundle'], function() {
 gulp.task('bundle-sync', ['bundle'], browserSync.reload);
 
 gulp.task('watch', ['serve'], function() {
-  gulp.watch(['./'+PATH_JADE_SRC+'*.jade', './'+PATH_SCSS+'*.scss'], ['bundle-sync']);
+  gulp.watch(['./'+PATH_JADE_SRC+'**/'+'*.jade', './'+PATH_SCSS+'**/*.scss'], ['bundle-sync']);
 });
 
 gulp.task('default', ['bundle'], function() {});

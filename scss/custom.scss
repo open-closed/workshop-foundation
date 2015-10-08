@@ -1,3 +1,24 @@
-body {
-  color: blue;
+.top-actions {
+   margin-top: 10px;
+}
+
+.sub-nav {
+  background: #f2f2f2;
+  padding: 0.5em 0;
+}
+
+.black-box {
+  //padding: 0px 0.3em;
+  background: black;
+  display: inline-block;
+  color: white;
+}
+
+.muted {
+  color: #999;
+  font-size: 0.8rem;
+}
+
+.smally {
+  font-size: 0.7em;
 }
