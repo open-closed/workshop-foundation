@@ -44,7 +44,7 @@ gulp.task('bundle', ['sass', 'bundle-css', 'compile-jade', 'statics'], function(
   .pipe(gulp.dest(PATH_DEST))
 });
 
-gulp.task("bundle-css", function() {
+gulp.task("bundle-css",['sass'], function() {
   gulp.src('./'+PATH_DEST+PATH_CSS+"*.css")
   .pipe(bundle("bundle.css"))
   .pipe(gulp.dest('./'+PATH_DEST+PATH_CSS))
