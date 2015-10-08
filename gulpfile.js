@@ -37,7 +37,7 @@ gulp.task('statics', function() {
 
 gulp.task('bundle', ['sass', 'compile-jade', 'statics'], function() {
   return  gulp.src('./'+PATH_DEST+'*.html')
-  .pipe(inlineCss())
+  //.pipe(inlineCss())
   .pipe(gulp.dest(PATH_DEST))
 });
 
