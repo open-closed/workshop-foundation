@@ -27,7 +27,7 @@ gulp.task('sass', function() {
 gulp.task('compile-jade', function() {
   return gulp.src(PATH_JADE_SRC+'*.jade')
   .pipe(jade({
-    pretty: false
+    pretty: true
   }))
   .pipe(gulp.dest('./'+PATH_DEST))
 });
@@ -44,9 +44,10 @@ gulp.task('bundle', ['sass', 'bundle-css', 'compile-jade', 'statics'], function(
   .pipe(gulp.dest(PATH_DEST))
 });
 
+var BUNDLE_NAME = "bundle.css";
 gulp.task("bundle-css",['sass'], function() {
-  gulp.src('./'+PATH_DEST+PATH_CSS+"*.css")
-  .pipe(bundle("bundle.css"))
+  gulp.src(['./'+PATH_DEST+PATH_CSS+"*.css", '!./'+PATH_DEST+PATH_CSS+BUNDLE_NAME])
+  .pipe(bundle(BUNDLE_NAME))
   .pipe(gulp.dest('./'+PATH_DEST+PATH_CSS))
 });
 
@@ -69,6 +70,10 @@ gulp.task('bundle-sync', ['bundle'], browserSync.reload);
 
 gulp.task('watch', ['serve'], function() {
   gulp.watch(['./'+PATH_JADE_SRC+'**/'+'*.jade', './'+PATH_SCSS+'**/*.scss'], ['bundle-sync']);
+});
+
+gulp.task('watch-bundle',['bundle'], function() {
+  gulp.watch(['./'+PATH_JADE_SRC+'**/'+'*.jade', './'+PATH_SCSS+'**/*.scss'], ['bundle']);
 });
 
 gulp.task('default', ['bundle'], function() {});
